@@ -2,6 +2,7 @@ var quizbank = [];
 var currentQuizQuestions = [];
 var numQuestionsPerQuiz = 3;
 var quizNum = 1;
+var time = 30;
 
 function QA(question, answer) {
     this.question = question;
@@ -20,18 +21,30 @@ console.log(quizbank);
 $( document ).ready( function() {
 
 
+    var startButton = $("<button>").text("Start Quiz").attr("id","play");
+    $("#playDiv").append(startButton);
+
     // Put questions onto the page.
 
     for(let i=0; i<numQuestionsPerQuiz; i++) {
         var questionDiv = $("<div>");
         var questionParagraph = $("<p>").text(quizbank[i].question);
-        var answerButtons = $("<button>");
-        questionDiv.append(answerButtons);
+        var trueButton = $("<button>").text("True");
+        var falseButton = $("<button>").text("False");
         questionDiv.append(questionParagraph);
+        questionDiv.append(trueButton);
+        questionDiv.append(falseButton);
         $("#questions").append(questionDiv);
     }
 
     // If start button is pressed then generate questions, displayQuizScreen(), then start the timer.
+    //This is a dynamically added element so you can't use jquery normal like that.
+    $("#play").on("click", function(e) {
+        var interval = setInterval(function(){
+            time--;
+            $("timer").text(time);
+        }, 1000);
+    });
 
 });
 
